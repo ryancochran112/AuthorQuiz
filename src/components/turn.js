@@ -1,0 +1,28 @@
+import React, {Component} from 'react';
+import Book from './book';
+
+class Turn extends Component {
+
+    highlightBackground(highlight) {
+        const mapping = {
+            'none': '',
+            'correct': 'green',
+            'wrong' : 'red'
+        };
+ 
+        return mapping[highlight];
+    }
+
+    render() {
+        return (<div className="row turn" style= {{background: this.highlightBackground(this.props.highlight)}}>
+            <div className = "col-md-4 col-md-offset-1">
+                <img src={this.props.turnData.author.imageUrl} className="authorimage" alt="Author"/>
+            </div>
+            <div className = "col-md-6">
+                {this.props.turnData.books.map((title) => <Book key={title} title={title} onAnswerSelected={this.props.onAnswerSelected}>{title}</Book>)};
+            </div>
+        </div>);
+    }
+}
+
+export default Turn;
