@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import './AuthorQuiz.css';
 import Hero from './components/hero';
 import Turn from './components/turn';
 import Continue from './components/continue';
 import Footer from './components/footer';
 
-class AuthorQuiz extends Component {
+export class AuthorQuiz extends Component {
   render() {
     return (
       <div className = "containerFluid">
@@ -35,4 +35,4 @@ Turn.propTypes = {
   highlight: PropTypes.string.isRequired
 };
 
-export default AuthorQuiz;
+export default withRouter(AuthorQuiz);
