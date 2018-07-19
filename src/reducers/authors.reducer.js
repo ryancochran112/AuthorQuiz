@@ -24,7 +24,6 @@ const authorsReducer = (state = defaultState, action) => {
 }
 
 function getTurnData(authors) {
-    console.log(authors);
     const allBooks = authors.reduce(function (p, c) {
         return p.concat(c.books);
     }, [])
