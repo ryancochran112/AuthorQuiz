@@ -115,7 +115,7 @@ describe('Author Quiz', () => {
       wrapper = mount(
         <Provider store={store}>
           <MemoryRouter initialEntries={[ '/' ]} initialIndex={0}>
-            <AuthorQuiz turnData = {state.turnData} highlight = {'correct'} onAnswerSelected = {() => {}} />
+            <AuthorQuiz />
         </MemoryRouter>
       </Provider>);
     });
@@ -127,9 +127,26 @@ describe('Author Quiz', () => {
   });
 
   describe('Reducers', () => {
+    const state = {
+      authors: AUTHORS,
+      turnData: {
+        author: AUTHORS[0],
+        books: AUTHORS[0].books
+      },
+      highlight: 'correct'
+    }
+    
     it('should return the initial state', () => {
       expect(authorsReducer(undefined, {}).authors).toEqual(AUTHORS);
       expect(authorsReducer(undefined, {}).highlight).toEqual('');
+    });
+
+    it('Adding an Author', () => {
+      expect(
+        authorsReducer(state, {
+          type: ADD_AUTHOR,
+          payload: {name: 'Ryan', imageUrl: '/testimage.jpg', books: ['James is cool!']}
+        }).authors.length).toBe(AUTHORS.length + 1);
     });
   });
 
