@@ -142,11 +142,14 @@ describe('Author Quiz', () => {
     });
 
     it('Adding an Author', () => {
-      expect(
-        authorsReducer(state, {
-          type: ADD_AUTHOR,
-          payload: {name: 'Ryan', imageUrl: '/testimage.jpg', books: ['James is cool!']}
-        }).authors.length).toBe(AUTHORS.length + 1);
+      // Act
+      var result = authorsReducer(state, {
+        type: ADD_AUTHOR,
+        payload: {name: 'Ryan', imageUrl: '/testimage.jpg', books: ['James is cool!']}
+      }).authors;
+      // Assert
+      expect(result.length).toBe(AUTHORS.length + 1);
+      expect(result.filter(author => author.name === 'Ryan' && author.imageUrl === '/testimage.jpg').length).toBe(1);
     });
   });
 
