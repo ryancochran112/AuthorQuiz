@@ -1,7 +1,7 @@
 import 'raf/polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {mount, shallow, render } from 'enzyme'
+import {mount, shallow } from 'enzyme'
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { AUTHORS } from './mockdata/mockdata';
@@ -14,8 +14,6 @@ import configureStore from 'redux-mock-store';
 import { answerSelected, ADD_AUTHOR, ANSWER_SELECTED, CONTINUE_TURN } from './actions/authors.actions';
 // Reducers
 import authorsReducer from './reducers/authors.reducer';
-// Helpers
-import { getTurnData } from './helpers/turndata-helper';
 
 // Enzyme
 configure({ adapter: new Adapter() });
@@ -97,7 +95,6 @@ describe('Author Quiz', () => {
     });
     
     it('should have red background color', () => {
-      store.dispatch(answerSelected('Roughing it'));
       expect(wrapper.find('.row.turn').length).toBe(1);
       expect(wrapper.find('.row.turn').get(0).props.style).toHaveProperty('background','red');
     });
