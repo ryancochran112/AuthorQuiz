@@ -1,6 +1,6 @@
 import { AUTHORS } from '../mockdata/mockdata';
-import { shuffle, sample } from 'underscore';
 import { ADD_AUTHOR, ANSWER_SELECTED, CONTINUE_TURN } from '../actions/authors.actions';
+import { getTurnData } from '../helpers/turndata-helper';
 
 const defaultState = {
     authors: AUTHORS,
@@ -20,21 +20,6 @@ const authorsReducer = (state = defaultState, action) => {
             return Object.assign({}, state, {authors: authors , turnData: getTurnData(authors)});
         default:
             return state;
-    }
-}
-
-function getTurnData(authors) {
-    const allBooks = authors.reduce(function (p, c) {
-        return p.concat(c.books);
-    }, [])
-    const fourRandomBooks = shuffle(allBooks).slice(0, 4);
-    const answer = sample(fourRandomBooks);
-
-    return {
-        books: fourRandomBooks,
-        author: authors.find((author) => 
-                author.books.some((title) => 
-                title === answer))
     }
 }
 

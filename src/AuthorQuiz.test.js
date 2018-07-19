@@ -11,9 +11,11 @@ import { MemoryRouter } from 'react-router'
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 // Actions
-import { answerSelected } from './actions/authors.actions';
+import { answerSelected, ADD_AUTHOR, ANSWER_SELECTED, CONTINUE_TURN } from './actions/authors.actions';
 // Reducers
 import authorsReducer from './reducers/authors.reducer';
+// Helpers
+import { getTurnData } from './helpers/turndata-helper';
 
 // Enzyme
 configure({ adapter: new Adapter() });
@@ -126,4 +128,12 @@ describe('Author Quiz', () => {
       expect(wrapper.find('.row.turn').get(0).props.style).toHaveProperty('background','green');
     });
   });
+
+  describe('Reducers', () => {
+    it('should return the initial state', () => {
+      expect(authorsReducer(undefined, {}).authors).toEqual(AUTHORS);
+      expect(authorsReducer(undefined, {}).highlight).toEqual('');
+    });
+  });
+
 });
