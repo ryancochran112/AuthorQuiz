@@ -1,5 +1,18 @@
 import React, {Component} from 'react';
 import './add-author.css';
+import { connect } from 'react-redux';
+import { withRouter} from 'react-router-dom';
+import { addAuthor } from '../actions/authors.actions';
+
+function mapDispatchToProps(dispatch, props) {
+    return { 
+        onAddAuthor: (author) => {
+            console.log(author);
+            dispatch(addAuthor(author));
+            props.history.push('/');
+        }
+    };
+  }
 
 class AddAuthor extends Component {
     constructor(props) {
@@ -26,7 +39,7 @@ class AddAuthor extends Component {
         this.props.onAddAuthor(this.state);
     }
 
-    addBook(event) {
+    addBook() {
         this.setState({
             books: this.state.books.concat([this.state.bookTemp]),
             bookTemp: ''
@@ -51,10 +64,10 @@ class AddAuthor extends Component {
                     <input type = "text" name="bookTemp" value={this.state.bookTemp} onChange={this.onFieldChange}/>
                     <input type ="button" value="Add Book" onClick={this.addBook}/>
                 </div>
-                <input type ="submit" value="Add Author"/>
+                <input type ="submit" value="Add Author" onClick={() => {this.props.onAddAuthor({name: this.state.name, imageUrl: this.state.imageUrl, books: this.state.books})}}/>
             </form>
         </div>);
     }
 }
 
-export default AddAuthor;
+export default withRouter(connect(() => ({}), mapDispatchToProps) (AddAuthor));

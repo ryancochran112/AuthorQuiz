@@ -1,12 +1,12 @@
 import 'raf/polyfill';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {mount, shallow, render } from 'enzyme'
-import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import React from '../../../../AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/react';
+import ReactDOM from '../../../../AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/react-dom';
+import {mount, shallow, render } from '../../../../AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/enzyme'
+import { configure } from '../../../../AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/enzyme';
+import Adapter from '../../../../AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/enzyme-adapter-react-16';
 import { AUTHORS } from './mockdata/mockdata';
 import { AuthorQuiz } from './AuthorQuiz';
-import { MemoryRouter } from 'react-router'
+import { MemoryRouter } from '../../../../AppData/Local/Microsoft/TypeScript/2.9/node_modules/@types/react-router'
 
 configure({ adapter: new Adapter() });
 

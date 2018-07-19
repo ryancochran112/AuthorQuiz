@@ -1,5 +1,24 @@
 import React, {Component} from 'react';
 import Book from './book';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { answerSelected } from '../actions/authors.actions';
+
+
+function mapStateToProps(state) {
+    return {
+      turnData: state.turnData,
+      highlight: state.highlight
+    };
+  }
+  
+function mapDispatchToProps(dispatch) {
+    return { 
+      onAnswerSelected: (answer) => {
+        dispatch(answerSelected(answer));
+      }
+    };
+  }
 
 class Turn extends Component {
 
@@ -25,4 +44,15 @@ class Turn extends Component {
     }
 }
 
-export default Turn;
+Turn.propTypes = {
+    author: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      imageUrl: PropTypes.string.isRequired,
+      imageSource: PropTypes.string.isRequired,
+      books: PropTypes.arrayOf(PropTypes.string).isRequired
+    }),
+    onAnswerSelected: PropTypes.func.isRequired,
+    highlight: PropTypes.string.isRequired
+  };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Turn);
