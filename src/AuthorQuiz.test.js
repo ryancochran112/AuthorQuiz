@@ -8,7 +8,6 @@ import { AUTHORS } from './mockdata/mockdata';
 // Components
 import { AuthorQuiz } from './AuthorQuiz';
 import  AddAuthor  from './components/add-author';
-import { MemoryRouter } from 'react-router'
 // Redux
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
@@ -16,6 +15,8 @@ import configureStore from 'redux-mock-store';
 import { answerSelected, ADD_AUTHOR, ANSWER_SELECTED, CONTINUE_TURN } from './actions/authors.actions';
 // Reducers
 import authorsReducer from './reducers/authors.reducer';
+// Router
+import { MemoryRouter } from 'react-router'
 
 // Enzyme
 configure({ adapter: new Adapter() });
