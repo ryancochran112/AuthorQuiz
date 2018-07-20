@@ -155,7 +155,7 @@ describe('Author Quiz', () => {
     });
   });
 
-  describe('Components', () => {
+  describe('Routing', () => {
     const state = {
       authors: AUTHORS,
       turnData: {
