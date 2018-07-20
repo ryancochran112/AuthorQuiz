@@ -1,11 +1,13 @@
 import 'raf/polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {mount, shallow } from 'enzyme'
+import {mount, shallow, render } from 'enzyme'
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { AUTHORS } from './mockdata/mockdata';
+// Components
 import { AuthorQuiz } from './AuthorQuiz';
+import  AddAuthor  from './components/add-author';
 import { MemoryRouter } from 'react-router'
 // Redux
 import { Provider } from 'react-redux';
@@ -35,7 +37,7 @@ describe('Author Quiz', () => {
       },
       highlight: 'none'
     }
-    
+
     const store = mockStore(state);
     const div = document.createElement('div');
     ReactDOM.render(
@@ -58,7 +60,7 @@ describe('Author Quiz', () => {
         },
         highlight: 'none'
       }
-      
+
       const store = mockStore(state);
       wrapper = mount(
         <Provider store={store}>
@@ -67,7 +69,7 @@ describe('Author Quiz', () => {
         </MemoryRouter>
       </Provider>);
     });
-    
+
     it('should have no background color', () => {
       expect(wrapper.find('.row.turn').length).toBe(1);
       expect(wrapper.find('.row.turn').get(0).props.style).toHaveProperty('background','');
@@ -82,7 +84,7 @@ describe('Author Quiz', () => {
       },
       highlight: 'wrong'
     }
-    
+
     const store = mockStore(state);
     let wrapper;
     beforeAll(() => {
@@ -93,7 +95,7 @@ describe('Author Quiz', () => {
         </MemoryRouter>
       </Provider>);
     });
-    
+
     it('should have red background color', () => {
       expect(wrapper.find('.row.turn').length).toBe(1);
       expect(wrapper.find('.row.turn').get(0).props.style).toHaveProperty('background','red');
@@ -108,7 +110,7 @@ describe('Author Quiz', () => {
       },
       highlight: 'correct'
     }
-    
+
     const store = mockStore(state);
     let wrapper;
     beforeAll(() => {
@@ -119,7 +121,7 @@ describe('Author Quiz', () => {
         </MemoryRouter>
       </Provider>);
     });
-    
+
     it('should have green background color', () => {
       expect(wrapper.find('.row.turn').length).toBe(1);
       expect(wrapper.find('.row.turn').get(0).props.style).toHaveProperty('background','green');
@@ -135,13 +137,13 @@ describe('Author Quiz', () => {
       },
       highlight: 'correct'
     }
-    
+
     it('should return the initial state', () => {
       expect(authorsReducer(undefined, {}).authors).toEqual(AUTHORS);
       expect(authorsReducer(undefined, {}).highlight).toEqual('');
     });
 
-    it('Adding an Author', () => {
+    it('Adding an Author Reducer test', () => {
       // Act
       var result = authorsReducer(state, {
         type: ADD_AUTHOR,
@@ -151,6 +153,33 @@ describe('Author Quiz', () => {
       expect(result.length).toBe(AUTHORS.length + 1);
       expect(result.filter(author => author.name === 'Ryan' && author.imageUrl === '/testimage.jpg').length).toBe(1);
     });
+  });
+
+  describe('Components', () => {
+    const state = {
+      authors: AUTHORS,
+      turnData: {
+        author: AUTHORS[0],
+        books: AUTHORS[0].books
+      },
+      highlight: 'correct'
+    }
+    const store = mockStore(state);
+
+    it('should change routes when author is added and form submitted', () => {
+      const wrapper = mount(
+        <Provider store={store}>
+          <MemoryRouter initialEntries={[ '/add' ]} initialIndex={0}>
+            <AddAuthor />
+        </MemoryRouter>
+      </Provider>);
+      const preventDefault = jest.fn();
+      wrapper.find('form').simulate('submit', { preventDefault });
+      expect(preventDefault).toBeCalled();
+      expect(wrapper.find('AddAuthor')).toHaveLength(1);
+      expect(wrapper.find('AddAuthor').props().location.pathname).toBe("/");
+    });
+
   });
 
 });
