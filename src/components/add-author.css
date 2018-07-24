@@ -3,10 +3,6 @@
     margin: 50px 10%;
 }
 
-.add-author-input {
-    margin-bottom: 20px;
-}
-
-.add-author-input > label {
-    display: block;
+.error {
+     border: 1px solid red; 
 }
