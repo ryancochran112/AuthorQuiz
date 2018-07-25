@@ -88,10 +88,10 @@ class AddAuthor extends Component {
                 </div>
                 <div className= "form-group">
                     <label className="col-md-1" htmlFor="bookTemp">Books</label>
-                    <div class="input-group">
+                    <div className="input-group">
                     <input className="form-control" type ="text" name="bookTemp" value={this.state.bookTemp} onBlur={this.onBlur} onChange={this.validateForm}/>
-                        <span class="input-group-btn">
-                            <button class="btn btn-secondary" type="button" onClick={this.addBook}>Add Book</button>
+                        <span className="input-group-btn">
+                            <button className="btn btn-secondary" type="button" onClick={this.addBook}>Add Book</button>
                         </span>
                     </div>
                     <div className="col-md-offset-1">
