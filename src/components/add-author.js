@@ -3,6 +3,10 @@ import './add-author.css';
 import { connect } from 'react-redux';
 import { withRouter} from 'react-router-dom';
 import { addAuthor } from '../actions/authors.actions';
+import Form from 'react-validation/build/form';
+import Input from 'react-validation/build/input';
+import Button from 'react-validation/build/button';
+
 
 function mapDispatchToProps(dispatch, props) {
     return { 
@@ -14,6 +18,19 @@ function mapDispatchToProps(dispatch, props) {
     };
   }
 
+  const required = (value) => {
+    if (!value.toString().trim().length) {
+      return <span className="error">Field Required</span>
+    }
+  };
+
+  const isNotNumber = (value) => {
+    if (parseInt(value)) {
+      // We can return string or jsx as the 'error' prop for the validated Component
+      return <span className="error">Must not be a number</span>
+    }
+  };
+
 class AddAuthor extends Component {
     constructor(props) {
         super(props);
@@ -21,41 +38,19 @@ class AddAuthor extends Component {
             'name' : '',
             'imageUrl' : '',
             'books' : [],
-            'bookTemp' : '',
-            'errors' : { name: '', imageUrl: ''},
-            'touched' : { name: false, imageUrl: false}
+            'bookTemp' : ''
         };
         this.onSubmit = this.onSubmit.bind(this);
-        this.onBlur = this.onBlur.bind(this);
         this.addBook = this.addBook.bind(this);
-        this.validateForm = this.validateForm.bind(this);
-        this.setErrors = this.setErrors.bind(this);
+        this.onFieldChange = this.onFieldChange.bind(this);
     }
 
-    onBlur (event) {
-        this.setState({
-            touched: { ...this.state.touched, [event.target.name]: true }
-        });
-        this.validateForm(event);
-    }
-    
-    validateForm (event) {
+    onFieldChange (event) {
         this.setState({
             [event.target.name] : event.target.value
         });
-        if (!event.target.value) {
-            this.setErrors(event.target.name, [event.target.name] + ' is required');
-        } else {
-            this.setErrors(event.target.name, '');
-        }
     }
-
-    setErrors (inputName, error) {
-        this.setState({
-            errors: { ...this.state.errors, [inputName] : error }
-        });
-    }
-
+    
     onSubmit(event) {
         event.preventDefault();
         this.props.onAddAuthor(this.state);
@@ -71,25 +66,23 @@ class AddAuthor extends Component {
     render() {
         return (<div className="add-author">
             <h1 className="col-md-offset-5">Add Author</h1>
-            <form onSubmit={this.onSubmit}>
+            <Form onSubmit={this.onSubmit}>
                 <div className= "form-group row">
                     <label className="col-md-1" htmlFor="name">Name</label>
                     <div className="col-md-11">
-                        <input className={this.state.errors.name && this.state.touched.name ? "form-control error" : "form-control"} type = "text" name="name" value={this.state.name} onBlur={this.onBlur} onChange={this.validateForm}/>
-                        {this.state.errors.name && this.state.touched.name ? <span className="text-danger">{this.state.errors.name}</span> : ''}
+                        <Input className= "form-control" type = "text" name="name" value={this.state.name}  onChange={this.onFieldChange} validations={[required, isNotNumber]}/>
                     </div>
                 </div>
                 <div className= "form-group row">
                     <label className="col-md-1" htmlFor="imageUrl">Image Url</label>
                     <div className="col-md-11">
-                        <input className={this.state.errors.imageUrl && this.state.touched.imageUrl  ? "form-control error" : "form-control"} type = "text" name="imageUrl" value={this.state.imageUrl} onBlur={this.onBlur} onChange={this.validateForm}/>
-                        {this.state.errors.imageUrl && this.state.touched.imageUrl ? <span className="text-danger">{this.state.errors.imageUrl}</span> : ''}
+                        <input className= "form-control"type = "text" name="imageUrl" value={this.state.imageUrl} onChange={this.onFieldChange}/>
                     </div>
                 </div>
                 <div className= "form-group">
                     <label className="col-md-1" htmlFor="bookTemp">Books</label>
                     <div className="input-group">
-                    <input className="form-control" type ="text" name="bookTemp" value={this.state.bookTemp} onBlur={this.onBlur} onChange={this.validateForm}/>
+                    <input className="form-control" type ="text" name="bookTemp" value={this.state.bookTemp} onChange={this.onFieldChange}/>
                         <span className="input-group-btn">
                             <button className="btn btn-secondary" type="button" onClick={this.addBook}>Add Book</button>
                         </span>
@@ -99,9 +92,9 @@ class AddAuthor extends Component {
                     </div>
                 </div>
                 <div className= "form-group row pull-right">
-                    <input disabled={this.state.books.length < 1 || this.state.name.length < 1 || this.state.imageUrl.length < 1} className="btn btn-primary float-right" type ="submit" value="Add Author" onClick={() => {this.props.onAddAuthor({name: this.state.name, imageUrl: this.state.imageUrl, books: this.state.books})}}/>
+                    <Button className="btn btn-primary float-right" type ="submit" onClick={() => {this.props.onAddAuthor({name: this.state.name, imageUrl: this.state.imageUrl, books: this.state.books})}}>Add Author</Button>
                 </div>
-            </form>
+            </Form>
         </div>);
     }
 }

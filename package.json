@@ -17,7 +17,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom --coverage",
     "eject": "react-scripts eject"
-
   },
   "devDependencies": {
     "babel-plugin-transform-export-extensions": "^6.22.0",
@@ -28,6 +27,7 @@
     "react-mock-router": "^1.0.15",
     "react-router-dom": "^4.3.1",
     "react-test-renderer": "^16.4.1",
+    "react-validation": "^3.0.7",
     "redux-mock-store": "^1.5.3",
     "underscore": "^1.9.1"
   }
