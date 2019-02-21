@@ -1,9 +1,9 @@
 export let AUTHORS = [
     {
-    name: 'Mark Twain',
-    imageUrl: '/images/authors/marktwain.jpg',
-    imageSource: 'Wikipedia Commons',
-    books: ['The Adventures of Huckleberry Finn',
+        name: 'Mark Twain',
+        imageUrl: '/images/authors/marktwain.jpg',
+        imageSource: 'Wikipedia Commons',
+        books: ['The Adventures of Huckleberry Finn',
             'Life on the Mississippi',
             'Roughing it']
     },

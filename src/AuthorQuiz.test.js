@@ -1,13 +1,13 @@
 import 'raf/polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {mount, shallow, render } from 'enzyme'
+import { mount, shallow, render } from 'enzyme'
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { AUTHORS } from './mockdata/mockdata';
 // Components
 import { AuthorQuiz } from './AuthorQuiz';
-import  AddAuthor  from './components/add-author';
+import AddAuthor from './components/add-author';
 // Redux
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
@@ -23,6 +23,74 @@ configure({ adapter: new Adapter() });
 
 // Mock Redux Store
 const mockStore = configureStore();
+
+beforeAll(() => {
+  console.log('before all');
+});
+
+afterAll(() => {
+  jest.clearAllTimers();
+  console.log('after all');
+});
+
+// Filters
+describe("Test Filters", () => {
+
+  beforeEach(() => {
+    console.log('each');
+  });
+
+  it("Test 1", () => {
+  });
+  it("Test 2", () => {
+  });
+});
+
+// Equality
+describe("Equality", () => {
+  it("Test 1", () => {
+    const num1 = 1;
+    const num1Copy = 1;
+    expect(num1).toBe(num1Copy);
+    expect(num1).toEqual(num1Copy);
+  });
+  it("Test 2", () => {
+    const obj1 = { test: "2" };
+    const obj1Copy = { test: "2" };
+    //expect(obj1).toBe(obj1Copy);
+    expect(obj1).toEqual(obj1Copy);
+  });
+});
+
+// Timers
+describe("Fake Timers", () => {
+
+  it("Test 1", () => {
+    // Arrange
+    let consoleSpy;
+    const state = {
+      turnData: {
+        author: AUTHORS[0],
+        books: AUTHORS[0].books
+      },
+      highlight: 'wrong'
+    }
+
+    const store = mockStore(state);
+    consoleSpy = jest.spyOn(global.console, 'log');
+    jest.useFakeTimers();
+    const wrapper = mount(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/']} initialIndex={0}>
+          <AuthorQuiz />
+        </MemoryRouter>
+      </Provider>);
+    // Act
+    jest.runOnlyPendingTimers();
+    // Assert
+    expect(consoleSpy).toHaveBeenCalledWith('test fake timer');
+  });
+});
 
 describe('Author Quiz', () => {
   beforeEach(() => { // Runs before each test in the suite
@@ -43,15 +111,16 @@ describe('Author Quiz', () => {
     const div = document.createElement('div');
     ReactDOM.render(
       <Provider store={store}>
-        <MemoryRouter initialEntries={[ '/' ]} initialIndex={0}>
+        <MemoryRouter initialEntries={['/']} initialIndex={0}>
           <AuthorQuiz />
-      </MemoryRouter>
-    </Provider>, div);
+        </MemoryRouter>
+      </Provider>, div);
     // Assert
     ReactDOM.unmountComponentAtNode(div);
   });
 
   describe('When no answer is selected', () => {
+    // Arrange
     let wrapper;
     beforeAll(() => {
       const state = {
@@ -65,19 +134,21 @@ describe('Author Quiz', () => {
       const store = mockStore(state);
       wrapper = mount(
         <Provider store={store}>
-          <MemoryRouter initialEntries={[ '/' ]} initialIndex={0}>
+          <MemoryRouter initialEntries={['/']} initialIndex={0}>
             <AuthorQuiz />
-        </MemoryRouter>
-      </Provider>);
+          </MemoryRouter>
+        </Provider>);
     });
 
     it('should have no background color', () => {
+      // Assert
       expect(wrapper.find('.row.turn').length).toBe(1);
-      expect(wrapper.find('.row.turn').get(0).props.style).toHaveProperty('background','');
+      expect(wrapper.find('.row.turn').get(0).props.style).toHaveProperty('background', '');
     });
   });
 
   describe('When wrong answer is selected', () => {
+    // Arrange
     const state = {
       turnData: {
         author: AUTHORS[0],
@@ -91,19 +162,21 @@ describe('Author Quiz', () => {
     beforeAll(() => {
       wrapper = mount(
         <Provider store={store}>
-          <MemoryRouter initialEntries={[ '/' ]} initialIndex={0}>
+          <MemoryRouter initialEntries={['/']} initialIndex={0}>
             <AuthorQuiz />
-        </MemoryRouter>
-      </Provider>);
+          </MemoryRouter>
+        </Provider>);
     });
 
     it('should have red background color', () => {
+      // Assert
       expect(wrapper.find('.row.turn').length).toBe(1);
-      expect(wrapper.find('.row.turn').get(0).props.style).toHaveProperty('background','red');
+      expect(wrapper.find('.row.turn').get(0).props.style).toHaveProperty('background', 'red');
     });
   });
 
   describe('When correct answer is selected', () => {
+    // Arrange
     const state = {
       turnData: {
         author: AUTHORS[0],
@@ -117,19 +190,21 @@ describe('Author Quiz', () => {
     beforeAll(() => {
       wrapper = mount(
         <Provider store={store}>
-          <MemoryRouter initialEntries={[ '/' ]} initialIndex={0}>
+          <MemoryRouter initialEntries={['/']} initialIndex={0}>
             <AuthorQuiz />
-        </MemoryRouter>
-      </Provider>);
+          </MemoryRouter>
+        </Provider>);
     });
 
     it('should have green background color', () => {
+      // Assert
       expect(wrapper.find('.row.turn').length).toBe(1);
-      expect(wrapper.find('.row.turn').get(0).props.style).toHaveProperty('background','green');
+      expect(wrapper.find('.row.turn').get(0).props.style).toHaveProperty('background', 'green');
     });
   });
 
   describe('Reducers', () => {
+    // Arrange
     const state = {
       authors: AUTHORS,
       turnData: {
@@ -140,6 +215,7 @@ describe('Author Quiz', () => {
     }
 
     it('should return the initial state', () => {
+      // Assert
       expect(authorsReducer(undefined, {}).authors).toEqual(AUTHORS);
       expect(authorsReducer(undefined, {}).highlight).toEqual('');
     });
@@ -148,7 +224,7 @@ describe('Author Quiz', () => {
       // Act
       var result = authorsReducer(state, {
         type: ADD_AUTHOR,
-        payload: {name: 'Ryan', imageUrl: '/testimage.jpg', books: ['James is cool!']}
+        payload: { name: 'Ryan', imageUrl: '/testimage.jpg', books: ['James is cool!'] }
       }).authors;
       // Assert
       expect(result.length).toBe(AUTHORS.length + 1);
@@ -157,30 +233,37 @@ describe('Author Quiz', () => {
   });
 
   describe('Routing', () => {
-    const state = {
-      authors: AUTHORS,
-      turnData: {
-        author: AUTHORS[0],
-        books: AUTHORS[0].books
-      },
-      highlight: 'correct'
-    }
-    const store = mockStore(state);
-
-    it('should change routes when author is added and form submitted', () => {
-      const wrapper = mount(
-        <Provider store={store}>
-          <MemoryRouter initialEntries={[ '/add' ]} initialIndex={0}>
-            <AddAuthor />
-        </MemoryRouter>
-      </Provider>);
-      const preventDefault = jest.fn();
-      wrapper.find('form').simulate('submit', { preventDefault });
-      expect(preventDefault).toBeCalled();
-      expect(wrapper.find('AddAuthor')).toHaveLength(1);
-      expect(wrapper.find('AddAuthor').props().location.pathname).toBe("/");
+    let store;
+    beforeAll(() => {
+      // Arrange
+      const state = {
+        authors: AUTHORS,
+        turnData: {
+          author: AUTHORS[0],
+          books: AUTHORS[0].books
+        },
+        highlight: 'correct'
+      }
+      store = mockStore(state);
     });
 
+    it('should change routes when author is added and form submitted', () => {
+      // Arrange
+      const wrapper = mount(
+        <Provider store={store}>
+          <MemoryRouter initialEntries={['/add', '/']} initialIndex={0}>
+            <AddAuthor />
+          </MemoryRouter>
+        </Provider>);
+      const preventDefault = jest.fn();
+      // Act
+      wrapper.find('form').simulate('submit', { preventDefault });
+      // Assert
+      expect(preventDefault).toBeCalled();
+      // expect(wrapper.find('AddAuthor')).toHaveLength(1);
+      // The "/" indicates the route should now be the root or home page.
+      expect(wrapper.find('AddAuthor').props().location.pathname).toBe("/");
+    });
   });
 
 });

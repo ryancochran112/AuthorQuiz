@@ -9,8 +9,8 @@ export function getTurnData(authors) {
 
     return {
         books: fourRandomBooks,
-        author: authors.find((author) => 
-                author.books.some((title) => 
+        author: authors.find((author) =>
+            author.books.some((title) =>
                 title === answer))
     }
 }
