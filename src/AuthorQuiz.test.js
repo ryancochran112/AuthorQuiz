@@ -1,9 +1,8 @@
 import 'raf/polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { mount, shallow, render } from 'enzyme'
-import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+
+// Mock Data
 import { AUTHORS } from './mockdata/mockdata';
 // Components
 import { AuthorQuiz } from './AuthorQuiz';
@@ -18,6 +17,9 @@ import authorsReducer from './reducers/authors.reducer';
 // Router
 import { MemoryRouter } from 'react-router'
 // Enzyme
+import { mount, shallow, render } from 'enzyme'
+import { configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 configure({ adapter: new Adapter() });
 
 // Mock Redux Store
@@ -45,6 +47,67 @@ describe("Test Filters", () => {
   });
 });
 
+// Basic
+describe("Basic", () => {
+  it("Basic Test", () => {
+    // Arrange
+    const state = {
+      turnData: {
+        author: AUTHORS[0],
+        books: AUTHORS[0].books
+      },
+      highlight: 'wrong'
+    };
+    const store = mockStore(state);
+    const testFunction = jest.fn(); // mock function
+    const wrapper = mount(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/']} initialIndex={0}>
+          <AuthorQuiz testFunction={testFunction} />
+        </MemoryRouter>
+      </Provider>);
+    const button = wrapper.find('.test'); //Add . in front for class names.
+
+    // Act
+    button.simulate('click');
+
+    // Assert
+    expect(testFunction).toHaveBeenCalledTimes(1);
+  });
+});
+
+// Props
+describe("Props And State", () => {
+  it("Test Prop Function and State", () => {
+    // Arrange
+    const state = {
+      turnData: {
+        author: AUTHORS[0],
+        books: AUTHORS[0].books
+      },
+      highlight: 'wrong'
+    };
+    const store = mockStore(state);
+    const testFunction = jest.fn();
+    const wrapper = mount(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/']} initialIndex={0}>
+          <AuthorQuiz testFunction={testFunction} />
+        </MemoryRouter>
+      </Provider>);
+    const authorQuiz = wrapper.find('AuthorQuiz').instance();
+    const hero = wrapper.find('Hero');
+
+    // Act
+    authorQuiz.callPropFunction();
+
+    // Assert
+    expect(testFunction).toHaveBeenCalledTimes(1);
+    expect(authorQuiz.state.testFunctionCalled).toBeTruthy();
+    expect(hero.prop('testFunction')).toBe(testFunction);
+  });
+});
+
 // Equality
 describe("Equality", () => {
   it("Test 1", () => {
@@ -63,7 +126,6 @@ describe("Equality", () => {
 
 // Timers
 describe("Fake Timers", () => {
-
   it("Timed log", () => {
     // Arrange
     let consoleSpy;
@@ -73,8 +135,7 @@ describe("Fake Timers", () => {
         books: AUTHORS[0].books
       },
       highlight: 'wrong'
-    }
-
+    };
     const store = mockStore(state);
     consoleSpy = jest.spyOn(global.console, 'log');
     jest.useFakeTimers();
@@ -84,8 +145,10 @@ describe("Fake Timers", () => {
           <AuthorQuiz />
         </MemoryRouter>
       </Provider>);
+
     // Act
-    jest.runOnlyPendingTimers();
+    jest.runOnlyPendingTimers(); //comment this line out and the test will fail.
+
     // Assert
     expect(consoleSpy).toHaveBeenCalledWith('test fake timer');
   });
@@ -314,7 +377,7 @@ describe('Author Quiz', () => {
       wrapper.find('form').simulate('submit', { preventDefault });
       // Assert
       expect(preventDefault).toBeCalled();
-      // expect(wrapper.find('AddAuthor')).toHaveLength(1);
+      expect(wrapper.find('AddAuthor')).toHaveLength(1);
       // The "/" indicates the route should now be the root or home page.
       expect(wrapper.find('AddAuthor').props().location.pathname).toBe("/");
     });
