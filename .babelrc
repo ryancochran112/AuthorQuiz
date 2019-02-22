@@ -1,12 +1,17 @@
 {
-    "env": {
-      "test": {
-        "presets": ["env", "react"],
-        "plugins": ["transform-export-extensions"],
-        "only": [
-          "./**/test.js",
-          "node_modules/jest-runtime"
-        ]
-      }
+  "env": {
+    "test": {
+      "presets": [
+        "env",
+        "react"
+      ],
+      "plugins": [
+        "transform-export-extensions"
+      ],
+      "only": [
+        "./**/test.js",
+        "node_modules/jest-runtime"
+      ]
     }
   }
+}

@@ -17,7 +17,6 @@ import { answerSelected, ADD_AUTHOR, ANSWER_SELECTED, CONTINUE_TURN } from './ac
 import authorsReducer from './reducers/authors.reducer';
 // Router
 import { MemoryRouter } from 'react-router'
-
 // Enzyme
 configure({ adapter: new Adapter() });
 
@@ -65,7 +64,7 @@ describe("Equality", () => {
 // Timers
 describe("Fake Timers", () => {
 
-  it("Test 1", () => {
+  it("Timed log", () => {
     // Arrange
     let consoleSpy;
     const state = {
@@ -89,6 +88,61 @@ describe("Fake Timers", () => {
     jest.runOnlyPendingTimers();
     // Assert
     expect(consoleSpy).toHaveBeenCalledWith('test fake timer');
+  });
+});
+
+// APIs
+describe("Api tests", () => {
+  let wrapper;
+  let consoleSpy;
+  const apiError = "error";
+
+  const state = {
+    turnData: {
+      author: AUTHORS[0],
+      books: AUTHORS[0].books
+    },
+    highlight: 'wrong'
+  };
+
+  const store = mockStore(state);
+
+  it("Api Fail", async () => {
+    // Arrange
+    global.fetch = jest.fn(() => Promise.reject(apiError));
+    consoleSpy = jest.spyOn(global.console, 'error');
+    wrapper = mount(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/']} initialIndex={0}>
+          <AuthorQuiz />
+        </MemoryRouter>
+      </Provider>);
+    const authorQuiz = wrapper.find('AuthorQuiz');
+
+    // Act
+    await authorQuiz.instance().callApi();
+
+    // Assert
+    expect(consoleSpy).toHaveBeenCalledWith(apiError);
+  });
+
+  it("Api Success", async () => {
+    // Arrange
+    const data = ['test 1', 'test 2'];
+    global.fetch = jest.fn(() => Promise.resolve({ text: jest.fn(() => Promise.resolve(data)) }));
+    consoleSpy = jest.spyOn(global.console, 'log');
+    wrapper = mount(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/']} initialIndex={0}>
+          <AuthorQuiz />
+        </MemoryRouter>
+      </Provider>);
+    const authorQuiz = wrapper.find('AuthorQuiz');
+
+    // Act
+    await authorQuiz.instance().callApi();
+    // Assert
+    expect(consoleSpy).toHaveBeenCalledWith(data);
   });
 });
 

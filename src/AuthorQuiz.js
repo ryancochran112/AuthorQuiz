@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import './AuthorQuiz.css';
 import Hero from './components/hero';
@@ -7,14 +7,17 @@ import Continue from './components/continue';
 import Footer from './components/footer';
 import { connect } from 'react-redux';
 
-export class AuthorQuiz extends Component {
+export class AuthorQuiz extends React.Component {
 
-  componentDidMount() {
-    fetch('/mockdata.json')
+  callApi = async () => {
+    await fetch('/mockdata.json')
       .then((response) => response.text())
       .then((responseData) => {
         console.log(responseData);
       })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   render() {
