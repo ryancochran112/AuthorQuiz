@@ -56,7 +56,7 @@ describe("Equality", () => {
   it("Test 2", () => {
     const obj1 = { test: "2" };
     const obj1Copy = { test: "2" };
-    //expect(obj1).toBe(obj1Copy);
+    // expect(obj1).toBe(obj1Copy);
     expect(obj1).toEqual(obj1Copy);
   });
 });
