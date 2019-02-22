@@ -6,18 +6,12 @@ import Turn from './components/turn';
 import Continue from './components/continue';
 import Footer from './components/footer';
 import { connect } from 'react-redux';
+import AuthorService from './services/AuthorService';
 
 export class AuthorQuiz extends React.Component {
 
   callApi = async () => {
-    await fetch('/mockdata.json')
-      .then((response) => response.text())
-      .then((responseData) => {
-        console.log(responseData);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    await AuthorService.callApi();
   }
 
   render() {
