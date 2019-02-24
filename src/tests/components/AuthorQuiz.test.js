@@ -10,10 +10,6 @@ import AddAuthor from '../../components/add-author';
 // Redux
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-// Actions
-import { answerSelected, ADD_AUTHOR, ANSWER_SELECTED, CONTINUE_TURN } from '../../actions/authors.actions';
-// Reducers
-import authorsReducer from '../../reducers/authors.reducer';
 // Router
 import { MemoryRouter } from 'react-router'
 // Enzyme
@@ -27,6 +23,7 @@ configure({ adapter: new Adapter() });
 const mockStore = configureStore();
 
 beforeAll(() => {
+  global.fetch = jest.fn(() => Promise.resolve({ text: jest.fn(() => Promise.resolve([]))}));
   console.log('before all');
 });
 
@@ -169,7 +166,7 @@ describe("Api tests", () => {
       highlight: 'wrong'
     };
     const store = mockStore(state);
-    
+
     const wrapper = mount(
       <Provider store={store}>
         <MemoryRouter initialEntries={['/']} initialIndex={0}>
@@ -294,35 +291,6 @@ describe('Author Quiz', () => {
       // Assert
       expect(wrapper.find('.row.turn').length).toBe(1);
       expect(wrapper.find('.row.turn').get(0).props.style).toHaveProperty('background', 'green');
-    });
-  });
-
-  describe('Reducers', () => {
-    // Arrange
-    const state = {
-      authors: AUTHORS,
-      turnData: {
-        author: AUTHORS[0],
-        books: AUTHORS[0].books
-      },
-      highlight: 'correct'
-    }
-
-    it('should return the initial state', () => {
-      // Assert
-      expect(authorsReducer(undefined, {}).authors).toEqual(AUTHORS);
-      expect(authorsReducer(undefined, {}).highlight).toEqual('');
-    });
-
-    it('Adding an Author Reducer test', () => {
-      // Act
-      var result = authorsReducer(state, {
-        type: ADD_AUTHOR,
-        payload: { name: 'Ryan', imageUrl: '/testimage.jpg', books: ['James is cool!'] }
-      }).authors;
-      // Assert
-      expect(result.length).toBe(AUTHORS.length + 1);
-      expect(result.filter(author => author.name === 'Ryan' && author.imageUrl === '/testimage.jpg').length).toBe(1);
     });
   });
 
