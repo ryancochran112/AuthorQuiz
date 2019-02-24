@@ -3,23 +3,24 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 // Mock Data
-import { AUTHORS } from './mockdata/mockdata';
+import { AUTHORS } from '../../mockdata/mockdata';
 // Components
-import { AuthorQuiz } from './AuthorQuiz';
-import AddAuthor from './components/add-author';
+import { AuthorQuiz } from '../../AuthorQuiz';
+import AddAuthor from '../../components/add-author';
 // Redux
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 // Actions
-import { answerSelected, ADD_AUTHOR, ANSWER_SELECTED, CONTINUE_TURN } from './actions/authors.actions';
+import { answerSelected, ADD_AUTHOR, ANSWER_SELECTED, CONTINUE_TURN } from '../../actions/authors.actions';
 // Reducers
-import authorsReducer from './reducers/authors.reducer';
+import authorsReducer from '../../reducers/authors.reducer';
 // Router
 import { MemoryRouter } from 'react-router'
 // Enzyme
 import { mount, shallow, render } from 'enzyme'
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import AuthorService from '../../services/AuthorService';
 configure({ adapter: new Adapter() });
 
 // Mock Redux Store
@@ -156,25 +157,20 @@ describe("Fake Timers", () => {
 
 // APIs
 describe("Api tests", () => {
-  let wrapper;
-  let consoleSpy;
-  const apiError = "error";
 
-  const state = {
-    turnData: {
-      author: AUTHORS[0],
-      books: AUTHORS[0].books
-    },
-    highlight: 'wrong'
-  };
-
-  const store = mockStore(state);
-
-  it("Api Fail", async () => {
+  it("Api Call", async () => {
     // Arrange
-    global.fetch = jest.fn(() => Promise.reject(apiError));
-    consoleSpy = jest.spyOn(global.console, 'error');
-    wrapper = mount(
+    const authorServiceSpy = jest.spyOn(AuthorService, 'callApi');
+    const state = {
+      turnData: {
+        author: AUTHORS[0],
+        books: AUTHORS[0].books
+      },
+      highlight: 'wrong'
+    };
+    const store = mockStore(state);
+    
+    const wrapper = mount(
       <Provider store={store}>
         <MemoryRouter initialEntries={['/']} initialIndex={0}>
           <AuthorQuiz />
@@ -186,26 +182,7 @@ describe("Api tests", () => {
     await authorQuiz.instance().callApi();
 
     // Assert
-    expect(consoleSpy).toHaveBeenCalledWith(apiError);
-  });
-
-  it("Api Success", async () => {
-    // Arrange
-    const data = ['test 1', 'test 2'];
-    global.fetch = jest.fn(() => Promise.resolve({ text: jest.fn(() => Promise.resolve(data)) }));
-    consoleSpy = jest.spyOn(global.console, 'log');
-    wrapper = mount(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={['/']} initialIndex={0}>
-          <AuthorQuiz />
-        </MemoryRouter>
-      </Provider>);
-    const authorQuiz = wrapper.find('AuthorQuiz');
-
-    // Act
-    await authorQuiz.instance().callApi();
-    // Assert
-    expect(consoleSpy).toHaveBeenCalledWith(data);
+    expect(authorServiceSpy).toHaveBeenCalledTimes(1);
   });
 });
 
