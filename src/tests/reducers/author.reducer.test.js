@@ -1,9 +1,9 @@
 // Mock Data
 import { AUTHORS } from '../../mockdata/mockdata';
 // Actions
-import { ADD_AUTHOR} from '../../actions/authors.actions';
+import { ADD_AUTHOR} from '../../actions/authors.action';
 // Reducers
-import authorsReducer from '../../reducers/authors.reducer';
+import authorsReducer from '../../reducers/author.reducer';
 
   describe('Reducers', () => {
     // Arrange

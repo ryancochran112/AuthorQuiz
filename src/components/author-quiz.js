@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import './AuthorQuiz.css';
-import Hero from './components/hero';
-import Turn from './components/turn';
-import Continue from './components/continue';
-import Footer from './components/footer';
+import './author-quiz.css';
+import Hero from './hero';
+import Turn from './turn';
+import Continue from './continue';
+import Footer from './footer';
 import { connect } from 'react-redux';
-import AuthorService from './services/AuthorService';
+import AuthorService from '../services/author.service';
 
 export class AuthorQuiz extends React.Component {
 

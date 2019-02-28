@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './add-author.css';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { addAuthor } from '../actions/authors.actions';
+import { addAuthor } from '../actions/authors.action';
 import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import Button from 'react-validation/build/button';

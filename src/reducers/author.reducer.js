@@ -1,5 +1,5 @@
-import { ADD_AUTHOR, ANSWER_SELECTED, CONTINUE_TURN } from '../actions/authors.actions';
-import { getTurnData } from '../helpers/turndata-helper';
+import { ADD_AUTHOR, ANSWER_SELECTED, CONTINUE_TURN } from '../actions/authors.action';
+import { getTurnData } from '../helpers/turndata.helper';
 import { AUTHORS } from '../mockdata/mockdata';
 
 const defaultState = {

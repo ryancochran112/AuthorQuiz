@@ -1,4 +1,4 @@
-import AuthorService from '../../services/AuthorService';
+import AuthorService from '../../services/author.service';
 
 describe("Author Service Tests", () => {
     let consoleSpy;

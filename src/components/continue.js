@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { continueTurn } from '../actions/authors.actions';
+import { continueTurn } from '../actions/authors.action';
 
 function mapStateToProps(state) {
     return {
