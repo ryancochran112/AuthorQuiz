@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route } from 'react-router-dom';
 import './index.css';
-import AuthorQuiz from './AuthorQuiz';
+import AuthorQuiz from './components/author-quiz';
 import AddAuthor from './components/add-author';
 import registerServiceWorker from './registerServiceWorker';
-import authorsReducer from './reducers/authors.reducer';
+import authorsReducer from './reducers/author.reducer';
 // Redux
 import * as Redux from 'redux';
 import { Provider } from 'react-redux';
