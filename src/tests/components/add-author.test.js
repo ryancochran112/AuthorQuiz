@@ -16,6 +16,7 @@ import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 configure({ adapter: new Adapter() });
 
+
 describe('Routing', () => {
 
     it('should change routes when author is added and form submitted', () => {
@@ -40,8 +41,14 @@ describe('Routing', () => {
       wrapper.find('form').simulate('submit', { preventDefault });
       // Assert
       expect(preventDefault).toBeCalled();
-      expect(wrapper.find('AddAuthor')).toHaveLength(1);
+      //expect(wrapper.find('AddAuthor')).toHaveLength(1);
       // The "/" indicates the route should now be the root or home page.
       expect(wrapper.find('AddAuthor').props().location.pathname).toBe("/");
+      // Verify action was dispatched
+      const addAuthor = wrapper.find('AddAuthor');
+      expect(store.getActions()).toEqual([{ 
+        type: 'ADD_AUTHOR', 
+        payload: addAuthor.instance().state
+    }]);
     });
   });
