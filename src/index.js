@@ -9,8 +9,9 @@ import authorsReducer from './reducers/author.reducer';
 // Redux
 import * as Redux from 'redux';
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 
-let store = Redux.createStore(authorsReducer);
+let store = Redux.createStore(authorsReducer, Redux.applyMiddleware(thunk));
 
 ReactDOM.render(
     <BrowserRouter>

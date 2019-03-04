@@ -2,21 +2,11 @@ import React, { Component } from 'react';
 import './add-author.css';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { addAuthor } from '../actions/authors.action';
+import { addAuthor } from '../actions/author.action';
 import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import Button from 'react-validation/build/button';
 
-
-function mapDispatchToProps(dispatch, props) {
-    return {
-        onAddAuthor: (author) => {
-            console.log(author);
-            dispatch(addAuthor(author));
-            props.history.push('/');
-        }
-    };
-}
 
 const required = (value) => {
     if (!value.toString().trim().length) {
@@ -97,6 +87,16 @@ class AddAuthor extends Component {
             </Form>
         </div>);
     }
+}
+
+function mapDispatchToProps(dispatch, props) {
+    return {
+        onAddAuthor: (author) => {
+            console.log(author);
+            dispatch(addAuthor(author));
+            props.history.push('/');
+        }
+    };
 }
 
 export default withRouter(connect(() => ({}), mapDispatchToProps)(AddAuthor));

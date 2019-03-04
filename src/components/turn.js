@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Book from './book';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { answerSelected } from '../actions/authors.action';
+import { answerSelected } from '../actions/author.action';
 
 
 function mapStateToProps(state) {

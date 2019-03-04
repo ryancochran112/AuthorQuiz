@@ -21,7 +21,7 @@ import AuthorService from '../../services/author.service';
 
 
 beforeAll(() => {
-  global.fetch = jest.fn(() => Promise.resolve({ text: jest.fn(() => Promise.resolve([]))}));
+  global.fetch = jest.fn(() => Promise.resolve({ text: jest.fn(() => Promise.resolve([])) }));
   console.log('before all');
 });
 
@@ -62,7 +62,7 @@ describe("Basic", () => {
           <AuthorQuiz testFunction={testFunction} />
         </MemoryRouter>
       </Provider>);
-    const button = wrapper.find('.test'); //Add . in front for class names.
+    const button = wrapper.find('.test-props'); //Add . in front for class names.
 
     // Act
     button.simulate('click');
@@ -179,6 +179,7 @@ describe("Api tests", () => {
     // Assert
     expect(authorServiceSpy).toHaveBeenCalledTimes(1);
   });
+
 });
 
 describe('Author Quiz', () => {

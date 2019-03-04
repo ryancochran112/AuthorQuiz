@@ -7,6 +7,7 @@ import Continue from './continue';
 import Footer from './footer';
 import { connect } from 'react-redux';
 import AuthorService from '../services/author.service';
+import { callApi } from '../actions/author.action';
 
 export class AuthorQuiz extends React.Component {
 
@@ -20,6 +21,10 @@ export class AuthorQuiz extends React.Component {
 
   callApi = async () => {
     await AuthorService.callApi();
+  }
+
+  callApiRedux = async () => {
+    this.props.callApi();
   }
 
   callPropFunction = () => {
@@ -39,10 +44,19 @@ export class AuthorQuiz extends React.Component {
           <strong className="col-md-4 col-md-offset-1"><Link to="/add">Add Author </Link> </strong>
         </div>
         <Footer />
-        <button className="test" onClick={this.props.testFunction}>Test</button>
+        <button className="test-props" onClick={this.props.testFunction}>Test Props</button>
+        <button className="test-redux" onClick={this.props.callApi}>Test Redux</button>
       </div>
     );
   }
 }
 
-export default withRouter(connect(() => ({}), () => ({}))(AuthorQuiz));
+function mapDispatchToProps(dispatch) {
+  return {
+    callApi: () => {
+      dispatch(callApi());
+    }
+  };
+}
+
+export default withRouter(connect(() => ({}), mapDispatchToProps)(AuthorQuiz));

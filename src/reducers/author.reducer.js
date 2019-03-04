@@ -1,4 +1,4 @@
-import { ADD_AUTHOR, ANSWER_SELECTED, CONTINUE_TURN } from '../actions/authors.action';
+import { ADD_AUTHOR, ANSWER_SELECTED, CONTINUE_TURN, CALL_API_FAIL, CALL_API_SUCCESS } from '../actions/author.action';
 import { getTurnData } from '../helpers/turndata.helper';
 import { AUTHORS } from '../mockdata/mockdata';
 
@@ -18,6 +18,10 @@ const authorsReducer = (state = defaultState, action) => {
         case ADD_AUTHOR:
             const authors = state.authors.concat([action.payload]);
             return Object.assign({}, state, { authors: authors, turnData: getTurnData(authors) });
+        case CALL_API_SUCCESS:
+        case CALL_API_FAIL:
+            console.log(action.payload);
+            return state;
         default:
             return state;
     }
