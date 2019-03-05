@@ -20,11 +20,12 @@ export class AuthorQuiz extends React.Component {
   }
 
   callApi = async () => {
-    await AuthorService.callApi();
-  }
-
-  callApiRedux = async () => {
-    this.props.callApi();
+    try {
+      const data = await AuthorService.callApi();
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   callPropFunction = () => {

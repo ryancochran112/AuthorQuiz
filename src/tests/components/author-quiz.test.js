@@ -135,7 +135,7 @@ describe("Fake Timers", () => {
     const store = mockStore(state);
     consoleSpy = jest.spyOn(global.console, 'log');
     jest.useFakeTimers();
-    const wrapper = mount(
+    mount(
       <Provider store={store}>
         <MemoryRouter initialEntries={['/']} initialIndex={0}>
           <AuthorQuiz />
@@ -152,40 +152,56 @@ describe("Fake Timers", () => {
 
 // APIs
 describe("Api tests", () => {
+  // Arrange
+  const authorServiceSpy = jest.spyOn(AuthorService, 'callApi');
+  const state = {
+    turnData: {
+      author: AUTHORS[0],
+      books: AUTHORS[0].books
+    },
+    highlight: 'wrong'
+  };
+  const store = mockStore(state);
 
-  it("Api Call", async () => {
+  const wrapper = mount(
+    <Provider store={store}>
+      <MemoryRouter initialEntries={['/']} initialIndex={0}>
+        <AuthorQuiz />
+      </MemoryRouter>
+    </Provider>);
+  const authorQuiz = wrapper.find('AuthorQuiz');
+
+  it("Api Call Success", async () => {
     // Arrange
-    const authorServiceSpy = jest.spyOn(AuthorService, 'callApi');
-    const state = {
-      turnData: {
-        author: AUTHORS[0],
-        books: AUTHORS[0].books
-      },
-      highlight: 'wrong'
-    };
-    const store = mockStore(state);
-
-    const wrapper = mount(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={['/']} initialIndex={0}>
-          <AuthorQuiz />
-        </MemoryRouter>
-      </Provider>);
-    const authorQuiz = wrapper.find('AuthorQuiz');
+    const expectedData = ['test 1', 'test 2'];
+    global.fetch = jest.fn(() => Promise.resolve({ text: jest.fn(() => Promise.resolve(expectedData)) }));
+    const consoleSpy = jest.spyOn(global.console, 'log');
 
     // Act
     await authorQuiz.instance().callApi();
 
     // Assert
-    expect(authorServiceSpy).toHaveBeenCalledTimes(1);
+    expect(authorServiceSpy).toHaveBeenCalled();
+    expect(consoleSpy).toHaveBeenCalledWith(expectedData);
+  });
+
+  it("Api Call Fail", async () => {
+    // Arrange
+    const apiError = "error";
+    global.fetch = jest.fn(() => Promise.reject(apiError));
+    const consoleSpy = jest.spyOn(global.console, 'error');
+
+    // Act
+    await authorQuiz.instance().callApi();
+
+    // Assert
+    expect(authorServiceSpy).toHaveBeenCalled();
+    expect(consoleSpy).toHaveBeenCalledWith(apiError);
   });
 
 });
 
 describe('Author Quiz', () => {
-  beforeEach(() => { // Runs before each test in the suite
-    // store.clearActions();
-  });
 
   it('renders without crashing', () => {
     // Arrange

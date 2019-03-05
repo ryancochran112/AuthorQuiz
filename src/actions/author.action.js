@@ -24,7 +24,7 @@ export const continueTurn = () => ({
 export const callApi = () => {
   return async (dispatch) => {
     try {
-      const data = await AuthorService.callApiRedux();
+      const data = await AuthorService.callApi();
       dispatch(callApiSuccess(data));
     } catch (e) {
       dispatch(callApiFail(e))
