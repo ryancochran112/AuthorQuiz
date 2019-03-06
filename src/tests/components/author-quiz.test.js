@@ -45,9 +45,9 @@ describe("Test Filters", () => {
 
 // Basic
 describe("Basic", () => {
-  it("Basic Test", async () => {
-    // const authorServiceSpy = jest.spyOn(AuthorService, 'callApi');
+  it("Basic Test", () => {
     // Arrange
+    const loadAuthorsMock = jest.fn();
     const state = {
       turnData: {
         author: AUTHORS[0],
@@ -57,10 +57,10 @@ describe("Basic", () => {
     };
     const store = mockStore(state);
     const testFunction = jest.fn(); // mock function
-    const wrapper = await mount(
+    const wrapper = mount(
       <Provider store={store}>
         <MemoryRouter initialEntries={['/']} initialIndex={0}>
-          <AuthorQuiz testFunction={testFunction} loadAuthors={jest.fn()} />
+          <AuthorQuiz testFunction={testFunction} loadAuthors={loadAuthorsMock} />
         </MemoryRouter>
       </Provider>);
     const button = wrapper.find('.test-props'); //Add . in front for class names.
@@ -70,7 +70,7 @@ describe("Basic", () => {
 
     // Assert
     expect(testFunction).toHaveBeenCalledTimes(1);
-    //expect(authorServiceSpy).toHaveBeenCalled();
+    expect(loadAuthorsMock).toHaveBeenCalled();
   });
 });
 

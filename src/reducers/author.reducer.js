@@ -18,6 +18,7 @@ const authorsReducer = (state = defaultState, action) => {
             const authors = state.authors.concat([action.payload]);
             return Object.assign({}, state, { authors: authors, turnData: getTurnData(authors) });
         case LOAD_AUTHORS_SUCCESS:
+            console.log(action.payload);
             return Object.assign({}, state, { authors: action.payload, turnData: getTurnData(action.payload) });
         case LOAD_AUTHORS_FAIL:
             console.log(action.payload);

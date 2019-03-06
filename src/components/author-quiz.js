@@ -19,8 +19,8 @@ export class AuthorQuiz extends React.Component {
     };
   }
 
-  async componentDidMount() {
-    await this.props.loadAuthors();
+  componentDidMount() {
+    this.props.loadAuthors();
   }
 
   callApi = async () => {
@@ -50,7 +50,7 @@ export class AuthorQuiz extends React.Component {
         </div>
         <Footer />
         <button className="test-props" onClick={this.props.testFunction}>Test Props</button>
-        <button className="test-redux" onClick={this.props.callApi}>Test Redux</button>
+        <button className="test-redux" onClick={this.props.loadAuthors}>Test Redux</button>
       </div>
     );
   }
