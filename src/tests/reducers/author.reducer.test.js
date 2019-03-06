@@ -18,7 +18,8 @@ describe('Reducers', () => {
 
   it('should return the initial state', () => {
     // Assert
-    expect(authorsReducer(undefined, {}).authors).toEqual(AUTHORS);
+    expect(authorsReducer(undefined, {}).authors).toEqual(undefined);
+    expect(authorsReducer(undefined, {}).turnData).toEqual(undefined);
     expect(authorsReducer(undefined, {}).highlight).toEqual('');
   });
 

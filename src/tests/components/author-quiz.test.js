@@ -45,7 +45,8 @@ describe("Test Filters", () => {
 
 // Basic
 describe("Basic", () => {
-  it("Basic Test", () => {
+  it("Basic Test", async () => {
+    // const authorServiceSpy = jest.spyOn(AuthorService, 'callApi');
     // Arrange
     const state = {
       turnData: {
@@ -56,10 +57,10 @@ describe("Basic", () => {
     };
     const store = mockStore(state);
     const testFunction = jest.fn(); // mock function
-    const wrapper = mount(
+    const wrapper = await mount(
       <Provider store={store}>
         <MemoryRouter initialEntries={['/']} initialIndex={0}>
-          <AuthorQuiz testFunction={testFunction} />
+          <AuthorQuiz testFunction={testFunction} loadAuthors={jest.fn()} />
         </MemoryRouter>
       </Provider>);
     const button = wrapper.find('.test-props'); //Add . in front for class names.
@@ -69,6 +70,7 @@ describe("Basic", () => {
 
     // Assert
     expect(testFunction).toHaveBeenCalledTimes(1);
+    //expect(authorServiceSpy).toHaveBeenCalled();
   });
 });
 
@@ -88,7 +90,7 @@ describe("Props And State", () => {
     const wrapper = mount(
       <Provider store={store}>
         <MemoryRouter initialEntries={['/']} initialIndex={0}>
-          <AuthorQuiz testFunction={testFunction} />
+          <AuthorQuiz testFunction={testFunction} loadAuthors={jest.fn()} />
         </MemoryRouter>
       </Provider>);
     const authorQuiz = wrapper.find('AuthorQuiz').instance();
@@ -138,7 +140,7 @@ describe("Fake Timers", () => {
     mount(
       <Provider store={store}>
         <MemoryRouter initialEntries={['/']} initialIndex={0}>
-          <AuthorQuiz />
+          <AuthorQuiz loadAuthors={jest.fn()} />
         </MemoryRouter>
       </Provider>);
 
@@ -166,7 +168,7 @@ describe("Api tests", () => {
   const wrapper = mount(
     <Provider store={store}>
       <MemoryRouter initialEntries={['/']} initialIndex={0}>
-        <AuthorQuiz />
+        <AuthorQuiz loadAuthors={jest.fn()} />
       </MemoryRouter>
     </Provider>);
   const authorQuiz = wrapper.find('AuthorQuiz');
@@ -218,7 +220,7 @@ describe('Author Quiz', () => {
     ReactDOM.render(
       <Provider store={store}>
         <MemoryRouter initialEntries={['/']} initialIndex={0}>
-          <AuthorQuiz />
+          <AuthorQuiz loadAuthors={jest.fn()} />
         </MemoryRouter>
       </Provider>, div);
     // Assert
@@ -241,7 +243,7 @@ describe('Author Quiz', () => {
       wrapper = mount(
         <Provider store={store}>
           <MemoryRouter initialEntries={['/']} initialIndex={0}>
-            <AuthorQuiz />
+            <AuthorQuiz loadAuthors={jest.fn()} />
           </MemoryRouter>
         </Provider>);
     });
@@ -269,7 +271,7 @@ describe('Author Quiz', () => {
       wrapper = mount(
         <Provider store={store}>
           <MemoryRouter initialEntries={['/']} initialIndex={0}>
-            <AuthorQuiz />
+            <AuthorQuiz loadAuthors={jest.fn()} />
           </MemoryRouter>
         </Provider>);
     });
@@ -297,7 +299,7 @@ describe('Author Quiz', () => {
       wrapper = mount(
         <Provider store={store}>
           <MemoryRouter initialEntries={['/']} initialIndex={0}>
-            <AuthorQuiz />
+            <AuthorQuiz loadAuthors={jest.fn()} />
           </MemoryRouter>
         </Provider>);
     });

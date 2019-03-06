@@ -3,8 +3,8 @@ import AuthorService from '../services/author.service';
 export const ANSWER_SELECTED = "ANSWER_SELECTED";
 export const CONTINUE_TURN = "CONTINUE_TURN";
 export const ADD_AUTHOR = "ADD_AUTHOR";
-export const CALL_API_SUCCESS = "CALL_API_SUCCESS";
-export const CALL_API_FAIL = "CALL_API_FAIL";
+export const LOAD_AUTHORS_SUCCESS = "LOAD_AUTHORS_SUCCESS";
+export const LOAD_AUTHORS_FAIL = "LOAD_AUTHORS_FAIL";
 
 export const addAuthor = (author) => ({
   type: ADD_AUTHOR,
@@ -21,24 +21,24 @@ export const continueTurn = () => ({
   payload: null
 });
 
-export const callApi = () => {
+export const loadAuthors = () => {
   return async (dispatch) => {
     try {
-      const data = await AuthorService.callApi();
-      dispatch(callApiSuccess(data));
+      const authors = await AuthorService.callApi();
+      dispatch(loadAuthorsSuccess(authors));
     } catch (e) {
-      dispatch(callApiFail(e))
+      dispatch(loadAuthorsFail(e))
     }
   };
 }
 
-export const callApiSuccess = (data) => ({
-  type: CALL_API_SUCCESS,
-  payload: data
+export const loadAuthorsSuccess = (authors) => ({
+  type: LOAD_AUTHORS_SUCCESS,
+  payload: JSON.parse(authors)
 });
 
-export const callApiFail = (e) => ({
-  type: CALL_API_FAIL,
+export const loadAuthorsFail = (e) => ({
+  type: LOAD_AUTHORS_FAIL,
   payload: e
 });
 

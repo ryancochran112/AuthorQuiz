@@ -33,14 +33,18 @@ class Turn extends Component {
     }
 
     render() {
-        return (<div className="row turn" style={{ background: this.highlightBackground(this.props.highlight) }}>
-            <div className="col-md-4 col-md-offset-1">
-                <img src={this.props.turnData.author.imageUrl} className="authorimage" alt="Author" />
-            </div>
-            <div className="col-md-6">
-                {this.props.turnData.books.map((title) => <Book key={title} title={title} onAnswerSelected={this.props.onAnswerSelected}>{title}</Book>)}
-            </div>
-        </div>);
+        let content = <div></div>;
+        if (this.props.turnData) {
+            content = (<div className="row turn" style={{ background: this.highlightBackground(this.props.highlight) }}>
+                <div className="col-md-4 col-md-offset-1">
+                    <img src={this.props.turnData.author.imageUrl} className="authorimage" alt="Author" />
+                </div>
+                <div className="col-md-6">
+                    {this.props.turnData.books.map((title) => <Book key={title} title={title} onAnswerSelected={this.props.onAnswerSelected}>{title}</Book>)}
+                </div>
+            </div>);
+        }
+        return content;
     }
 }
 

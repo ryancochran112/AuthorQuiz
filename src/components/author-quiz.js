@@ -7,7 +7,7 @@ import Continue from './continue';
 import Footer from './footer';
 import { connect } from 'react-redux';
 import AuthorService from '../services/author.service';
-import { callApi } from '../actions/author.action';
+import { loadAuthors } from '../actions/author.action';
 
 export class AuthorQuiz extends React.Component {
 
@@ -17,6 +17,10 @@ export class AuthorQuiz extends React.Component {
     this.state = {
       testFunctionCalled: false
     };
+  }
+
+  async componentDidMount() {
+    await this.props.loadAuthors();
   }
 
   callApi = async () => {
@@ -54,8 +58,8 @@ export class AuthorQuiz extends React.Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    callApi: () => {
-      dispatch(callApi());
+    loadAuthors: () => {
+      dispatch(loadAuthors());
     }
   };
 }
