@@ -3,7 +3,7 @@ import configureStore from 'redux-mock-store';
 import thunk from "redux-thunk";
 const mockStore = configureStore([thunk]);
 // Actions
-import { loadAuthors } from '../../actions/author.action';
+import { loadAuthors } from './author.action';
 
 describe('Actions', () => {
     it('Load Authors Success', async () => {

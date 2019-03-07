@@ -1,4 +1,4 @@
-import AuthorService from '../../services/author.service';
+import AuthorService from './author.service';
 
 describe("Author Service Tests", () => {
   it("Api Success", async () => {

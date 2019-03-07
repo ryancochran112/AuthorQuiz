@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 // Mock Data
 import { AUTHORS } from '../../mockdata/mockdata';
 // Components
-import { AuthorQuiz } from '../../components/author-quiz';
+import { AuthorQuiz } from './author-quiz';
 // Redux
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
