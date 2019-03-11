@@ -30,7 +30,7 @@ afterAll(() => {
   console.log('after all');
 });
 
-// Filters
+// Basic Constructs
 describe("Test Filters", () => {
 
   beforeEach(() => {
@@ -38,8 +38,10 @@ describe("Test Filters", () => {
   });
 
   it("Test 1", () => {
+    expect(1).toBe(1);
   });
   it("Test 2", () => {
+    expect(2).toBe(2);
   });
 });
 
@@ -48,6 +50,8 @@ describe("Basic", () => {
   it("Basic Test", () => {
     // Arrange
     const loadAuthorsMock = jest.fn();
+    const testFunction = jest.fn();
+    
     const state = {
       turnData: {
         author: AUTHORS[0],
@@ -56,7 +60,7 @@ describe("Basic", () => {
       highlight: 'wrong'
     };
     const store = mockStore(state);
-    const testFunction = jest.fn(); // mock function
+
     const wrapper = mount(
       <Provider store={store}>
         <MemoryRouter initialEntries={['/']} initialIndex={0}>
