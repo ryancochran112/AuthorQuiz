@@ -1,5 +1,4 @@
 {
-    "skipCI": false,
     "hooks": {
         "pre-commit": "npm run test:coverage"
     }
