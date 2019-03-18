@@ -13,9 +13,6 @@ const mockStore = configureStore();
 import { MemoryRouter } from 'react-router'
 // Enzyme
 import { mount, shallow, render } from 'enzyme'
-import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-configure({ adapter: new Adapter() });
 // Services
 import AuthorService from '../../services/author.service';
 
