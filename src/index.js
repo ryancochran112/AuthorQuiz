@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route } from 'react-router-dom';
 import './index.css';
-import AuthorQuiz from './components/author-quiz';
-import AddAuthor from './components/add-author';
+import AuthorQuiz from './components/author-quiz/author-quiz';
+import AddAuthor from './components/add-author/add-author';
 import registerServiceWorker from './registerServiceWorker';
 import authorsReducer from './reducers/author.reducer';
 // Redux
