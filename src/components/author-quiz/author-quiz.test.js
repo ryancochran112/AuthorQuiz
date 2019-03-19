@@ -13,6 +13,9 @@ const mockStore = configureStore();
 import { MemoryRouter } from 'react-router'
 // Enzyme
 import { mount, shallow, render } from 'enzyme'
+import { configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+configure({ adapter: new Adapter() });
 // Services
 import AuthorService from '../../services/author.service';
 
@@ -48,7 +51,7 @@ describe("Basic", () => {
     // Arrange
     const loadAuthorsMock = jest.fn();
     const testFunction = jest.fn();
-    
+
     const state = {
       turnData: {
         author: AUTHORS[0],
@@ -86,24 +89,62 @@ describe("Props And State", () => {
       },
       highlight: 'wrong'
     };
+
     const store = mockStore(state);
     const testFunction = jest.fn();
+
     const wrapper = mount(
       <Provider store={store}>
         <MemoryRouter initialEntries={['/']} initialIndex={0}>
           <AuthorQuiz testFunction={testFunction} loadAuthors={jest.fn()} />
         </MemoryRouter>
       </Provider>);
-    const authorQuiz = wrapper.find('AuthorQuiz').instance();
+      
+    const authorQuiz = wrapper.find('AuthorQuiz');
     const hero = wrapper.find('Hero');
 
     // Act
-    authorQuiz.callPropFunction();
+    authorQuiz.instance().callPropFunction();
+    wrapper.update();
 
     // Assert
     expect(testFunction).toHaveBeenCalledTimes(1);
-    expect(authorQuiz.state.testFunctionCalled).toBeTruthy();
     expect(hero.prop('testFunction')).toBe(testFunction);
+    expect(authorQuiz.instance().state.showTestSpan).toBeTruthy();
+    expect(wrapper.find('.test-span').length).toBe(1);
+  });
+});
+
+// State
+describe("State", () => {
+  it("Test State", () => {
+    // Arrange
+    const state = {
+      turnData: {
+        author: AUTHORS[0],
+        books: AUTHORS[0].books
+      },
+      highlight: 'wrong'
+    };
+
+    const store = mockStore(state);
+    const testFunction = jest.fn();
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/']} initialIndex={0}>
+          <AuthorQuiz testFunction={testFunction} loadAuthors={jest.fn()} />
+        </MemoryRouter>
+      </Provider>);
+
+      const authorQuiz = wrapper.find('AuthorQuiz');
+      authorQuiz.instance().setState({showTestSpan: true});
+
+    // Act
+    wrapper.update();
+
+    // Assert
+    expect(wrapper.find('.test-span').length).toBe(1);
   });
 });
 
@@ -138,14 +179,16 @@ describe("Fake Timers", () => {
     const store = mockStore(state);
     consoleSpy = jest.spyOn(global.console, 'log');
     jest.useFakeTimers();
-    mount(
+    const wrapper = mount(
       <Provider store={store}>
         <MemoryRouter initialEntries={['/']} initialIndex={0}>
           <AuthorQuiz loadAuthors={jest.fn()} />
         </MemoryRouter>
       </Provider>);
+      const authorQuiz = wrapper.find('AuthorQuiz');
 
     // Act
+    authorQuiz.instance().testTimer();
     jest.runOnlyPendingTimers(); //comment this line out and the test will fail.
 
     // Assert
@@ -192,6 +235,7 @@ describe("Api tests", () => {
     // Arrange
     const apiError = "error";
     global.fetch = jest.fn(() => Promise.reject(apiError));
+    const authorServiceSpy = jest.spyOn(AuthorService, 'callApi');
     const consoleSpy = jest.spyOn(global.console, 'error');
 
     // Act

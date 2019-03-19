@@ -15,7 +15,7 @@ export class AuthorQuiz extends React.Component {
     super(props);
 
     this.state = {
-      testFunctionCalled: false
+      showTestSpan: false
     };
   }
 
@@ -34,11 +34,14 @@ export class AuthorQuiz extends React.Component {
 
   callPropFunction = () => {
     this.props.testFunction();
-    this.setState({ testFunctionCalled: true });
+    this.setState({ showTestSpan: true });
+  }
+
+  testTimer = () => {
+    setTimeout(() => { console.log('test fake timer'); }, 2000);
   }
 
   render() {
-    setTimeout(() => { console.log('test fake timer'); }, 2000);
     return (
       <div className="containerFluid">
         <Hero testFunction={this.props.testFunction} />
@@ -49,8 +52,9 @@ export class AuthorQuiz extends React.Component {
           <strong className="col-md-4 col-md-offset-1"><Link to="/add">Add Author </Link> </strong>
         </div>
         <Footer />
-        <button className="test-props" onClick={this.props.testFunction}>Test Props</button>
+        <button className="test-props" onClick={this.callPropFunction}>Test Props</button>
         <button className="test-redux" onClick={this.props.loadAuthors}>Test Redux</button>
+        { this.state.showTestSpan ? <span className="test-span">I love testing props!</span> : null }
       </div>
     );
   }
