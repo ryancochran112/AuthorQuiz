@@ -115,7 +115,7 @@ describe("Props And State", () => {
   });
 });
 
-// State
+// Mock State
 describe("State", () => {
   it("Test State", () => {
     // Arrange
