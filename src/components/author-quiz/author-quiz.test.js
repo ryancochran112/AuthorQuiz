@@ -31,14 +31,14 @@ afterAll(() => {
 });
 
 // Basic Constructs
-describe("Test Filters", () => {
+describe.skip("Test Filters", () => {
 
   beforeEach(() => {
     console.log('each');
   });
 
   it("Test 1", () => {
-    expect(1).toBe(1);
+    expect(1).toBe(2);
   });
   it("Test 2", () => {
     expect(2).toBe(2);
@@ -99,7 +99,7 @@ describe("Props And State", () => {
           <AuthorQuiz testFunction={testFunction} loadAuthors={jest.fn()} />
         </MemoryRouter>
       </Provider>);
-      
+
     const authorQuiz = wrapper.find('AuthorQuiz');
     const hero = wrapper.find('Hero');
 
@@ -137,8 +137,8 @@ describe("State", () => {
         </MemoryRouter>
       </Provider>);
 
-      const authorQuiz = wrapper.find('AuthorQuiz');
-      authorQuiz.instance().setState({showTestSpan: true});
+    const authorQuiz = wrapper.find('AuthorQuiz');
+    authorQuiz.instance().setState({ showTestSpan: true });
 
     // Act
     wrapper.update();
@@ -185,7 +185,7 @@ describe("Fake Timers", () => {
           <AuthorQuiz loadAuthors={jest.fn()} />
         </MemoryRouter>
       </Provider>);
-      const authorQuiz = wrapper.find('AuthorQuiz');
+    const authorQuiz = wrapper.find('AuthorQuiz');
 
     // Act
     authorQuiz.instance().testTimer();
