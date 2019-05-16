@@ -23,6 +23,10 @@ export class AuthorQuiz extends React.Component {
     this.props.loadAuthors();
   }
 
+  test = (a,b) => {
+    return a === b ? b + a : a;
+  }
+
   callApi = async () => {
     try {
       const data = await AuthorService.callApi();

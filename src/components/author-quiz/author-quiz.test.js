@@ -16,6 +16,8 @@ import { mount, shallow, render } from 'enzyme'
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 configure({ adapter: new Adapter() });
+// Jest Each
+import each from 'jest-each';
 // Services
 import AuthorService from '../../services/author.service';
 
@@ -42,6 +44,41 @@ describe("Test Filters", () => {
   });
   it("Test 2", () => {
     expect(2).toBe(2);
+  });
+});
+
+// Test Function
+describe("Test Function", () => {
+  each([[1, 1], [1,3]]).it("Test Function", (a,b) => {
+    // Arrange
+    const state = {
+      turnData: {
+        author: AUTHORS[0],
+        books: AUTHORS[0].books
+      },
+      highlight: 'wrong'
+    };
+
+    const store = mockStore(state);
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/']} initialIndex={0}>
+          <AuthorQuiz loadAuthors={jest.fn()} />
+        </MemoryRouter>
+      </Provider>);
+      
+    const authorQuiz = wrapper.find('AuthorQuiz');
+
+    // Act
+    const result = authorQuiz.instance().test(a,b);
+
+    // Assert
+    if (a === b){
+      expect(result).toBe(a+b);
+    } else{
+      expect(result).toBe(a);
+    }
   });
 });
 
