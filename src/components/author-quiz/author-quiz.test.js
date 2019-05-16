@@ -49,7 +49,7 @@ describe("Test Filters", () => {
 
 // Test Function
 describe("Test Function", () => {
-  each([[1, 1], [1,3]]).it("Test Function", (a,b) => {
+  each([[1, 1], [1, 3]]).it("Test Function", (a, b) => {
     // Arrange
     const state = {
       turnData: {
@@ -67,16 +67,16 @@ describe("Test Function", () => {
           <AuthorQuiz loadAuthors={jest.fn()} />
         </MemoryRouter>
       </Provider>);
-      
+
     const authorQuiz = wrapper.find('AuthorQuiz');
 
     // Act
-    const result = authorQuiz.instance().test(a,b);
+    const result = authorQuiz.instance().test(a, b);
 
     // Assert
-    if (a === b){
-      expect(result).toBe(a+b);
-    } else{
+    if (a === b) {
+      expect(result).toBe(a + b);
+    } else {
       expect(result).toBe(a);
     }
   });

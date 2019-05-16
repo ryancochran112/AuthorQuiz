@@ -23,7 +23,7 @@ export class AuthorQuiz extends React.Component {
     this.props.loadAuthors();
   }
 
-  test = (a,b) => {
+  test = (a, b) => {
     return a === b ? b + a : a;
   }
 
@@ -58,7 +58,7 @@ export class AuthorQuiz extends React.Component {
         <Footer />
         <button className="test-props" onClick={this.callPropFunction}>Test Props</button>
         <button className="test-redux" onClick={this.props.loadAuthors}>Test Redux</button>
-        { this.state.showTestSpan ? <span className="test-span">I love testing props!</span> : null }
+        {this.state.showTestSpan ? <span className="test-span">I love testing props!</span> : null}
       </div>
     );
   }
